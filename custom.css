@@ -2,6 +2,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
+    background:darkcyan;
   }
   .day {
     background: linear-gradient(to bottom left, #d7d3ac, #ffffff);
