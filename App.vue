@@ -1,7 +1,7 @@
 <template>
   <div id="main" :class="isDay ? 'day' : 'night'">
     <div class="container my-5" style="max-width: 400px; min-width: 360px">
-      <h1 class="title text-center">Weather in</h1>
+      <h1 class="title text-center">Weather App</h1>
       <form class="search-location" v-on:submit.prevent="getWeather">
         <input
           type="text"
@@ -16,49 +16,10 @@
         class="card rounded my-3 shadow-lg back-card overflow-hidden"
         v-if="visible"
       >
-        <!-- weather animation container -->
-        <div>
-          <div icon="sunny" v-if="clearSky" data-label="Sunny">
-            <span class="sun"></span>
-          </div>
 
-          <div icon="snowy" v-if="snowy" data-label="Chilly">
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-
-          <div icon="stormy" v-if="stormy" data-label="Soggy">
-            <span class="cloud"></span>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-          <div icon="cloudy" v-if="cloudy" data-label="Perfect">
-            <span class="cloud"></span>
-            <span class="cloud"></span>
-          </div>
-          <div icon="nightmoon" v-if="clearNight" data-label="Cool!">
-            <span class="moon"></span>
-            <span class="meteor"></span>
-          </div>
-        </div>
+        
+         
+          
 
         <!-- Top of card starts here -->
         <div class="card-top text-center" style="margin-bottom: 15rem">
@@ -120,16 +81,12 @@ export default {
     return {
       cityFound: false,
       visible: false,
-      stormy: false,
-      cloudy: false,
-      clearSky: false,
-      clearNight: false,
-      snowy: false,
-      isDay: true,
+       isDay: true,
       citySearch: "",
+
       weather: {
-        cityName: "Gwarinpa",
-        country: "NG",
+        cityName: "Mumbai",
+        country: "India",
         temperature: 12,
         description: "Clouds everywhere",
         lowTemp: "19",
@@ -144,6 +101,7 @@ export default {
       console.log(this.citySearch);
       const key = "5299e83c9cf2fef510fb8ddaa3206ac8";
       const baseURL = `http://api.openweathermap.org/data/2.5/weather?q=${this.citySearch}&appid=${key}&units=metric`;
+
       //fetch weather
       try {
         const response = await fetch(baseURL);
@@ -158,13 +116,16 @@ export default {
         this.weather.highTemp = Math.round(data.main.temp_max);
         this.weather.feelsLike = Math.round(data.main.feels_like);
         this.weather.humidity = Math.round(data.main.humidity);
+
         const timeOfDay = data.weather[0].icon;
+
         ///check for time of day
         if (timeOfDay.includes("n")) {
           this.isDay = false;
         } else {
           this.isDay = true;
         }
+
         const mainWeather = data.weather[0].main;
         //check weather animations
         if (mainWeather.includes("Clouds")) {
@@ -212,8 +173,9 @@ export default {
           this.clearNight = false;
           this.snowy = true;
         }
+
         this.visible = true;
-        this.cityFound = false;
+        this.cityFound = false; 
       } catch (error) {
         console.log(error);
         this.cityFound = true;
@@ -226,5 +188,5 @@ export default {
 
 <style scoped>
 @import "./assets/custom.css";
-@import "./assets/animation.css";
+
 </style>
